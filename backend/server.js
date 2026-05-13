@@ -83,7 +83,8 @@ wss.on("connection", (ws) => {
     })
 });
 
-console.log("Server started");
+console.log(`server started on ${wss.host}, port ${wss.port}`);
+// console.log("Server started");
 
 
 function resp(type, data) {
