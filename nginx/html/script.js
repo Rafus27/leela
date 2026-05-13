@@ -96,7 +96,7 @@ class Player {
 
 // MAIN
 
-const url = "127.0.0.1:8080";
+const url = window.location.hostname;
 
 const socket = new Network(url);
 
