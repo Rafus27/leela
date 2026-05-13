@@ -10,6 +10,7 @@ wss.on("connection", (ws) => {
         let m = JSON.parse(message);
         let game;
 
+        console.log(m.type);
 
         switch (m.type) {
             case "CREATE":
