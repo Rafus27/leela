@@ -3,7 +3,7 @@ const WebSocket = require("ws");
 const games = new Map();
 const keys = new Map();
 
-const wss = new WebSocket.Server({ port: 8080 });
+const wss = new WebSocket.Server({ port: 3000 });
 
 wss.on("connection", (ws) => {
     ws.on("message", (message) => {
