@@ -1,4 +1,5 @@
 const WebSocket = require("ws");
+const crypto = require('crypto')
 
 const games = new Map();
 const keys = new Map();
