@@ -36,6 +36,8 @@ class Network {
                 state.key = message.data.key;
                 state.id = message.data.id;
                 console.log(state.key);
+                alert(state.key);
+                document.getElementById("keyholder").innerText = state.key;
                 break;
             case "ERROR" || "INFO":
                 console.log(message.data);
@@ -51,7 +53,8 @@ class Network {
                 state.players.forEach((item) => {
                     display_player(item)
                 });
-                console.log(state.players[0].pos);
+                list_player_generator();
+                //console.log(state.players[0].pos);
 
                 break;
             case "JOIN_DATA":
@@ -113,15 +116,21 @@ let state = {
 
 field_generation();
 
-document.getElementById("single").addEventListener("click", (e) => { main(false, true) });
+document.getElementById("single").addEventListener("click", (e) => { main(false, true); toggle_menu() });
 
-document.getElementById("join").addEventListener("click", (e) => { main(true, false) });
+document.getElementById("join").addEventListener("click", (e) => { main(true, false); toggle_menu() });
 
-document.getElementById("reconnect").addEventListener("click", (e) => { reconnect_game() });
+document.getElementById("reconnect").addEventListener("click", (e) => { reconnect_game(); toggle_menu() });
 
-document.getElementById("admin").addEventListener("click", (e) => { main(true, true) });
+document.getElementById("admin").addEventListener("click", (e) => { main(true, true); toggle_menu() });
 
 document.getElementById("roll").addEventListener("click", (e) => { make_move() });
+
+document.getElementById("menu-btn").addEventListener("click", (e) => { toggle_menu() });
+
+document.getElementById("back").addEventListener("click", (e) => { toggle_menu() });
+
+
 
 
 
@@ -187,13 +196,44 @@ function field_generation() {
 }
 
 function display_player(player) {
-    let html = `<div id="${player.id}" class="player"></div>`;
+    let html = `<div id="${player.id}" style="background-color: #${player.color};" class="player"></div>`;
 
     const a = document.getElementById(player.id);
     if (a) { a.remove() };
 
     const b = document.getElementById(`${player.pos.cur}`);
     if (b) { b.innerHTML += html };
+}
+
+function display_list_player(player) {
+    return `<div id="${player.id}" class="player-item ${is_turn(player.id)}"><div class="player-color" style="background-color: #${player.color};"></div> <p>${player.name}</p> <div class="player-pos"> ${is_warp(player.pos)} </div> ${html_dice(player.dice)} </div>`;
+}
+
+function is_turn(player_id) {
+    if (state.turn === player_id) {
+        return "active";
+    } else {
+        return "";
+    }
+}
+
+function is_warp(pos) {
+    if (pos.cur === pos.wrp) {
+        return `<p>${pos.cur}</p>`;
+    } else {
+        return `<p>${pos.wrp}</p><img id="arrow-left" src="media/arrow.png" alt="arrow left"><p>${pos.cur}</p>`
+    }
+}
+
+function list_player_generator() {
+    const a = "";
+    const b = document.getElementById("player-list");
+
+    state.players.forEach((item) => {
+        a += display_list_player(item);
+    })
+
+    b.innerHTML = a;
 }
 
 function join_game() {
@@ -219,12 +259,46 @@ function reconnect_game(game_id = localStorage.getItem("current_game_id"), playe
     socket.send("RECONNECT", { game_id, player_id });
 }
 
+function html_dice(num) {
+    let a = "";
+
+    switch (num) {
+        case 1:
+            a = `<div class="player-dice"> <div class="player-dice-row"> <div class=""></div> <div class=""></div> <div class=""></div> </div> <div class="player-dice-row"> <div class=""></div> <div class="active"></div> <div class=""></div> </div> <div class="player-dice-row"> <div class=""></div> <div class=""></div> <div class=""></div> </div> </div>`
+            break;
+        case 2:
+            a = `<div class="player-dice"> <div class="player-dice-row"> <div class=""></div> <div class=""></div> <div class="active"></div> </div> <div class="player-dice-row"> <div class=""></div> <div class=""></div> <div class=""></div> </div> <div class="player-dice-row"> <div class="active"></div> <div class=""></div> <div class=""></div> </div> </div>`;
+            break;
+        case 3:
+            a = `<div class="player-dice"> <div class="player-dice-row"> <div class=""></div> <div class=""></div> <div class="active"></div> </div> <div class="player-dice-row"> <div class=""></div> <div class="active"></div> <div class=""></div> </div> <div class="player-dice-row"> <div class="active"></div> <div class=""></div> <div class=""></div> </div> </div>`;
+            break;
+        case 4:
+            a = `<div class="player-dice"> <div class="player-dice-row"> <div class="active"></div> <div class=""></div> <div class="active"></div> </div> <div class="player-dice-row"> <div class=""></div> <div class=""></div> <div class=""></div> </div> <div class="player-dice-row"> <div class="active"></div> <div class=""></div> <div class="active"></div> </div> </div>`;
+            break;
+        case 5:
+            a = `<div class="player-dice"> <div class="player-dice-row"> <div class="active"></div> <div class=""></div> <div class="active"></div> </div> <div class="player-dice-row"> <div class=""></div> <div class="active"></div> <div class=""></div> </div> <div class="player-dice-row"> <div class="active"></div> <div class=""></div> <div class="active"></div> </div> </div>`;
+            break;
+        case 6:
+            a = `<div class="player-dice"> <div class="player-dice-row"> <div class="active"></div> <div class=""></div> <div class="active"></div> </div> <div class="player-dice-row"> <div class="active"></div> <div class=""></div> <div class="active"></div> </div> <div class="player-dice-row"> <div class="active"></div> <div class=""></div> <div class="active"></div> </div> </div>`;
+            break;
+        default:
+            break;
+    }
+
+    return a;
+}
+
+function toggle_menu() {
+    document.getElementById("menu").classList.toggle("active")
+};
+
+
 
 // FOR DEVELOPMENT ONLY
 
 function generateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0, 
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0,
             v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
