@@ -196,7 +196,7 @@ function field_generation() {
 }
 
 function display_player(player) {
-    let html = `<div id="${player.id}" style="background-color: #${player.color};" class="player"></div>`;
+    let html = `<div id="${player.id}" style="background-color: ${player.color};" class="player"></div>`;
 
     const a = document.getElementById(player.id);
     if (a) { a.remove() };
@@ -206,7 +206,7 @@ function display_player(player) {
 }
 
 function display_list_player(player) {
-    return `<div id="${player.id}" class="player-item ${is_turn(player.id)}"><div class="player-color" style="background-color: #${player.color};"></div> <p>${player.name}</p> <div class="player-pos"> ${is_warp(player.pos)} </div> ${html_dice(player.dice)} </div>`;
+    return `<div id="${player.id}" class="player-item ${is_turn(player.id)}"><div class="player-color" style="background-color: ${player.color};"></div> <p>${player.name}</p> <div class="player-pos"> ${is_warp(player.pos)} </div> ${html_dice(player.dice)} </div>`;
 }
 
 function is_turn(player_id) {
