@@ -46,9 +46,9 @@ class Network {
                 state.turn = message.data.turn;
                 state.players = message.data.players;
                 if (state.turn === current_player.id) {
-                    document.getElementById("roll").classList.add("active");
+                    document.getElementById("roll").removeAttribute("disabled");
                 } else {
-                    document.getElementById("roll").classList.remove("active");
+                    document.getElementById("roll").setAttribute("disabled");
                 }
                 state.players.forEach((item) => {
                     display_player(item)
