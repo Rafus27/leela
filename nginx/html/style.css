@@ -79,7 +79,7 @@ body {
     /* background-color: aqua; */
 }
 
-.game {
+.game.active {
     display: flex;
 }
 
