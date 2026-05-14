@@ -226,7 +226,7 @@ function is_warp(pos) {
 }
 
 function list_player_generator() {
-    const a = "";
+    let a = "";
     const b = document.getElementById("player-list");
 
     state.players.forEach((item) => {
