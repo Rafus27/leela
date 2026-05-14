@@ -70,13 +70,17 @@ body {
 }
 
 .game {
-    display: flex;
+    display: none;
     flex-direction: column;
     width: 100vw;
     min-height: 100vh;
     height: 100%;
     overflow-x: hidden;
     /* background-color: aqua; */
+}
+
+.game {
+    display: flex;
 }
 
 .field {

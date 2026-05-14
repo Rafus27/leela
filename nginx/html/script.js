@@ -290,6 +290,7 @@ function html_dice(num) {
 
 function toggle_menu() {
     document.getElementById("menu").classList.toggle("active")
+    document.getElementById("game").classList.toggle("active")
 };
 
 
